@@ -1,0 +1,16 @@
+[project]
+name = "final-remote"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "androidtvremote2>=0.2.3",
+    "beautifulsoup4>=4.13.4",
+    "langchain-groq>=0.3.6",
+    "langgraph>=0.5.3",
+    "python-dotenv>=1.1.1",
+    "simple-justwatch-python-api>=0.16",
+    "youtube-search>=2.1.2",
+    "zeroconf>=0.147.0",
+]

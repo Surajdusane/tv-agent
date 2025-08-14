@@ -1,0 +1,6 @@
+{
+  "tv_ip": "10.34.76.78",
+  "certfile": "cert.pem",
+  "keyfile": "key.pem",
+  "client_name": "MyPythonClient"
+}

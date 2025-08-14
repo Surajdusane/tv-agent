@@ -1,0 +1,103 @@
+  {
+      "keys_code_map": {
+        "key up code": "DPAD_UP",
+        "key down code": "DPAD_DOWN",
+        "key left code": "DPAD_LEFT",
+        "key right code": "DPAD_RIGHT",
+        "key select code": "DPAD_CENTER",
+        "key media play pause": "MEDIA_PLAY_PAUSE",
+        "key home": "HOME",
+        "key back": "BACK",
+        "key power": "POWER",
+        "key mute": "MUTE",
+        "key volume up": "VOLUME_UP",
+        "key volume down": "VOLUME_DOWN"
+      },
+      "functions_map": {
+        "function for send key codes": {
+          "function name": "sendCode",
+          "function description": "Send a key code to the device",
+          "function parameters": [
+            {
+              "parameter name": "key_code",
+              "parameter description": "The key code to send",
+              "parameter type": "string or integer",
+              "parameter example": ["KEYCODE_HOME", 25]
+            },
+            {
+              "parameter name": "repeat",
+              "parameter description": "The number of times to repeat the key code",
+              "default value": 1,
+              "parameter type": "integer",
+              "parameter example": [1, 3]
+            }
+          ],
+          "function return schema": "Done."
+        },
+        "function for typing text": {
+          "function name": "sendText",
+          "function description": "Send a text to the device",
+          "function parameters" : [
+            {
+              "parameter name": "key_text",
+              "parameter description": "The text to send",
+              "parameter type": "string",
+              "parameter example": ["Hello, World!", "Hello World!"]
+            }
+          ],
+          "function return schema": "Done."
+        },
+        "function for launching an app": {
+          "function name": "launchApp",
+          "function description": "Launch an app on the device",
+          "function parameters" : [
+            {
+              "parameter name": "key_code",
+              "parameter description": "The key code to launch the app",
+              "parameter type": "string",
+              "parameter example": ["https://www.youtube.com/watch?v=aXk6PKjQTLY&ab_channel=FaktMarathiTv", "https://www.youtube.com/watch?v=aXk6PKjQTLY&ab_channel=FaktMarathiTv"]
+            }
+          ],
+          "function return schema": "Done."
+        },
+        "function for finding simmiler movies or tv shows using one movie or tv show name": {
+          "function name": "scrape_similar_movies",
+          "function description": "Scrapes similar movies/shows from Movie Map for a given title.",
+          "function parameters": [
+            {
+              "parameter name": "title",
+              "parameter description": "The title of the movie or TV show to search for.",
+              "parameter type": "string",
+              "parameter example": ["Inception", "The Office"]
+            }
+          ],
+          "function return schema": "list of strings this string contain movie or tv show name"
+        },
+        "function for getting the tvshow all information and platform where it is available": {
+          "function name": "get_tvshow_info",
+          "function description": "Gets the information of a TV show from JustWatch.",
+          "function parameters": [
+            {
+              "parameter name": "movie_name",
+              "parameter description": "The movie_name of the TV show to search for.",
+              "parameter type": "string",
+              "parameter example": ["The Office", "Game of Thrones"]
+            }
+          ],
+          "function return schema": [{"type":"string","name":"string","date":"string","description":"string","time":"string","image":"string","available_platforms":[{"platform_name":"string","platform_url":"string"}]}]
+        },
+        "finding youtube video": {
+          "function name": "get_youtube_results",
+          "function description": "Finds YouTube videos based on a given search query.",
+          "function parameters": [
+            {
+              "parameter name": "query",
+              "parameter description": "The search query to use for finding YouTube videos.",
+              "parameter type": "string",
+              "parameter example": ["romanticc songs", "Mr. Beast latest video"]
+            }
+          ],
+          "function return schema": [{"id":"string","thumbnails":["string"],"title":"string","long_desc":"string or null","channel":"string","duration":"string","views":"string","publish_time":"string","url_suffix":"string"}]
+        }
+      }
+  }
