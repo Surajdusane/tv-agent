@@ -2,8 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_recommendations(state):
+
+    print("🔎 Starting recommendation search...")
+
     show_name = state["show_name"]
     task_number = state['task_number']
+
+    print(f"📺 Looking for shows similar to: '{show_name}' (Task #{task_number + 1})")
 
     # Format title for URL
     formatted_title = show_name.strip().replace(" ", "+").lower()
@@ -24,6 +29,12 @@ def get_recommendations(state):
     similar_titles = [a.text.strip() for a in map_div.find_all('a', class_='S')]
     similar_titles = [title for title in similar_titles if title.lower() != show_name.lower()]
     result = list(set(similar_titles))
+
+    if not result:
+        print("⚠️ No recommendations found.")
+
+    print(f"\n🎯 Default target show for next task: {result[0]}")
+    print("✅ Recommendation task completed.\n")
 
     return {"recommendations": result, "target_show_name": result[0], 'task_number': task_number + 1}
 

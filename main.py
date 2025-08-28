@@ -1,16 +1,18 @@
 from langgraph.graph import StateGraph, START, END
 from typing import TypedDict
 from agent_tools.get_key import get_key
-from agent_tools.send_key import sendCodeTest
+from agent_tools.send_key import sendCode
 from agent_tools.get_youtube_query import get_youtube_query
 from agent_tools.get_youtube_link import get_youtube_link
-from agent_tools.send_link import sendLinkTest
+from agent_tools.send_link import sendLink
 from agent_tools.get_platform import get_tvshow_plattform
 from agent_tools.get_recommendations import get_recommendations
 from agent_tools.set_show import setShowName
 from agent_tools.planner import planner
 import asyncio
 from typing import Optional
+import os
+from pyfiglet import Figlet
 
 # Creating state For the agent
 class TVAgentState(TypedDict):
@@ -27,11 +29,11 @@ class TVAgentState(TypedDict):
     edges: list
     task_number: int
 
-# async funtion configuration
-def run_send_code(state):
-    return asyncio.run(sendCodeTest(state))
-def run_send_link(state):
-    return asyncio.run(sendLinkTest(state))
+# # async funtion configuration
+# def run_send_code(state):
+#     return asyncio.run(sendCodeTest(state))
+# def run_send_link(state):
+#     return asyncio.run(sendLinkTest(state))
 
 # Create state graph
 graph = StateGraph(TVAgentState)
@@ -40,30 +42,20 @@ graph = StateGraph(TVAgentState)
 graph.add_node('planner', planner) # get key code
 graph.add_node('get_key', get_key) # get key code
 graph.add_node('set_show_name', setShowName) # set show name
-graph.add_node('send_code', run_send_code) # send key code
+graph.add_node('send_code', sendCode) # send key code
 graph.add_node('get_youtube_query', get_youtube_query) # get youtube query
 graph.add_node('get_youtube_link', get_youtube_link) # get youtube link
-graph.add_node('send_link', run_send_link) # send link
+graph.add_node('send_link', sendLink) # send link
 graph.add_node('get_platform', get_tvshow_plattform) # get platform info
 graph.add_node('get_recommendations', get_recommendations) # get recommendations
 
-# edge creation logic
-def route_next_step(state):
-    task_number = state['task_number']
-    steps = state['edges']
-    return steps[task_number]
-
-
-# Corrected edge creation logic
+# Edge creation logic
 def route_next_step(state: TVAgentState):
     task_number = state.get('task_number', 0)
     steps = state['edges']
 
     if task_number < len(steps):
         next_node = steps[task_number]
-        # Increment task_number for the *next* time route_next_step is called
-        # This update needs to be captured by the graph
-        state['task_number'] += 1
         return next_node
     else:
         return END
@@ -139,6 +131,34 @@ graph.add_conditional_edges(
 app = graph.compile()
 
 if __name__ == "__main__":
-    initial_state = {"current_task": "i want to watch movie war", "task_number": 0}
-    result = app.invoke(initial_state)
-    print(result)
+
+    # Optional: Clear terminal on start
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    # ASCII Art Title
+    figlet = Figlet(font='slant')
+    print(figlet.renderText('TVV Agent'))
+
+    # Subtitle
+    print("🎮 TV Agent - Interactive Smart TV Control System")
+    print("-----------------------------------------------------------\n")
+    print("Type your command or press Ctrl+C to exit.\n")
+
+    while True:
+        try:
+            user_input = input("🗣️  Enter your task: ").strip()
+            if not user_input:
+                print("⚠️  Please enter a valid task.\n")
+                continue
+
+            initial_state = {
+                "current_task": user_input,
+                "task_number": 0
+            }
+
+            # Replace this with your actual app/agent function
+            app.invoke(initial_state)
+
+        except KeyboardInterrupt:
+            print("\n👋 Exiting TVV Agent. Goodbye!\n")
+            break

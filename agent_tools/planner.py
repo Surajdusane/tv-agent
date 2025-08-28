@@ -9,6 +9,8 @@ load_dotenv()
 
 def planner(state):
 
+    print("[PLAN] Starting task planning...")
+
     task = state['current_task']
 
     # Initialize the Groq model (use any model you prefer)
@@ -39,7 +41,8 @@ def planner(state):
         example:
         user goal is to play romantic song = ["get_youtube_query", "get_youtube_link", "send_link"]
         user goal is to watch similer movie or tv show = ["set_show_name", "get_recommendations", "get_platform", "send_link"]
-        user goal is increase volume = ["get_key", "send_code"]
+        user goal is increse volume 4 times (dont use send_code 4 times this will handle automatically) = ["get_key", "send_code"]
+        user goal is to press some button or key or send command = ["get_key", "send_code"]
         user goal is watch perticular movie or tv show = ["set_show_name", "get_platform", "send_link"]
         user goal is watch movie trailer = ["get_youtube_query", "get_youtube_link", "send_link"]
 
@@ -57,6 +60,11 @@ def planner(state):
 
     # Parse the response using the output parser
     final_result = plan_output_parser.parse(response.content)
+
+    add_arrow = lambda lst: " -> ".join(lst)
+
+    print(f"[SEQ] Planned Tool Sequence: {add_arrow(final_result.edges)}")
+    print("[DONE] Planning completed.\n")
 
     return { 'edges': final_result.edges }
 

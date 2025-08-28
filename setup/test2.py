@@ -4,7 +4,7 @@ from pathlib import Path
 
 async def control_tv_volume():
     # TV connection details
-    tv_ip = "10.34.76.231"
+    tv_ip = "10.34.76.1-254"
     client_name = "PythonRemoteControl"
     
     # Create a directory for certificates if it doesn't exist

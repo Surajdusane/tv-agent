@@ -9,28 +9,32 @@ load_dotenv()
 
 def get_key(state):
 
+    print("[KEY] Starting key command generation...")
+
     task = state['current_task']
     task_number = state['task_number']
+
+    print(f"[TASK] Task #{task_number + 1}: {task}")
 
     # Initialize the Groq model (use any model you prefer)
     llm = ChatGroq(model="gemma2-9b-it")
 
     # Create output schema using Pydantic
     class SendKeyOutput(BaseModel):
-        command: Literal["DPAD_UP", "DPAD_DOWN", "DPAD_LEFT", "DPAD_RIGHT", "DPAD_CENTER", "MEDIA_PLAY_PAUSE", "HOME", "BACK", "POWER", "MUTE", "VOLUME_UP", "VOLUME_DOWN"] = Field(description="""Return key code depending on the task 
+        command: Literal["KEYCODE_DPAD_UP", "KEYCODE_DPAD_DOWN", "KEYCODE_DPAD_LEFT", "KEYCODE_DPAD_RIGHT", "KEYCODE_DPAD_CENTER", "KEYCODE_MEDIA_PLAY_PAUSE", "KEYCODE_HOME", "KEYCODE_BACK", "KEYCODE_POWER", "KEYCODE_MUTE", "KEYCODE_VOLUME_UP", "KEYCODE_VOLUME_DOWN"] = Field(description="""Return key code depending on the task 
         here are the key codes
-            "key up code": "DPAD_UP",
-            "key down code": "DPAD_DOWN",
-            "key left code": "DPAD_LEFT",
-            "key right code": "DPAD_RIGHT",
-            "key select code": "DPAD_CENTER",
-            "key media play pause": "MEDIA_PLAY_PAUSE",
-            "key home": "HOME",
-            "key back": "BACK",
-            "key power": "POWER",
-            "key mute or volume 0 and also use for unmute": "MUTE",
-            "key volume up": "VOLUME_UP",
-            "key volume down": "VOLUME_DOWN"
+            "key up code": "KEYCODE_DPAD_UP",
+            "key down code": "KEYCODE_DPAD_DOWN",
+            "key left code": "KEYCODE_DPAD_LEFT",
+            "key right code": "KEYCODE_DPAD_RIGHT",
+            "key select code this is use for selection and work like tap on the screen or OK button": "KEYCODE_DPAD_CENTER",
+            "key media play pause": "KEYCODE_MEDIA_PLAY_PAUSE",
+            "key home": "KEYCODE_HOME",
+            "key back": "KEYCODE_BACK",
+            "key power": "KEYCODE_POWER",
+            "key mute or volume 0 and also use for unmute": "KEYCODE_MUTE",
+            "key volume up": "KEYCODE_VOLUME_UP",
+            "key volume down": "KEYCODE_VOLUME_DOWN"
         """)
         repeat : int = Field(default=1,description="""The number of times to repeat the key code this only required if you want to send the key code multiple times example volume increasing and decreasing""")
 
@@ -56,6 +60,8 @@ def get_key(state):
 
     # Parse the response using the output parser
     final_result = key_output_parser.parse(response.content)
+
+    print(f"[DONE] Task processed successfully. | current_task_command : {final_result.command} | repeat :  {final_result.repeat}\n" )
 
     return { 'current_task_command': final_result.command, 'repeat': final_result.repeat, 'task_number': task_number + 1 }
 

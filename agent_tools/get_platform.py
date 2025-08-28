@@ -2,9 +2,12 @@ import json
 from simplejustwatchapi.justwatch import search
 
 def get_tvshow_plattform(state):
+  print("🔎 Starting platform search for TV show...")
   show_name = state["target_show_name"]
   task_number = state['task_number']
   results = search(show_name, "IN", "en", 5, True)
+
+  print(f"📺 Searching for: '{show_name}' (Task #{task_number + 1})")
 
   final_results = []
 
@@ -30,6 +33,10 @@ def get_tvshow_plattform(state):
 
   # with open('just-results.json', 'w', encoding='utf-8') as f:
   #     json.dump(final_results, f, ensure_ascii=False)
+
+  print("\n📦 Platform info successfully gathered.")
+  print(f"🔗 First available platform link: {final_results[0]['available_platforms'][0]['platform_url']}")
+  print("✅ Task completed.\n")
 
   return {"platform_info": final_results, 'task_number': task_number + 1, "app_link": final_results[0]["available_platforms"][0]["platform_url"]}
 

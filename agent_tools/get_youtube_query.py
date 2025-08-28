@@ -8,9 +8,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_youtube_query(state):
+    print("[YT] Generating YouTube query from task...")
 
     task = state['current_task']
     task_number = state['task_number']
+
+    print(f"[TASK] Task #{task_number + 1}: {task}")
 
     # Initialize the Groq model (use any model you prefer)
     llm = ChatGroq(model="gemma2-9b-it")
@@ -40,6 +43,9 @@ def get_youtube_query(state):
 
     # Parse the response using the output parser
     final_result = query_output_parser.parse(response.content)
+
+    print(f"🎯 YouTube Query: {final_result.query}")
+    print("✅ Query generation completed.\n")
 
     return { 'youtube_query': final_result.query, 'task_number': task_number + 1 }
 

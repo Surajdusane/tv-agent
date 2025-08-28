@@ -9,6 +9,7 @@ dependencies = [
     "beautifulsoup4>=4.13.4",
     "langchain-groq>=0.3.6",
     "langgraph>=0.5.3",
+    "pyfiglet>=1.0.4",
     "python-dotenv>=1.1.1",
     "simple-justwatch-python-api>=0.16",
     "youtube-search>=2.1.2",

@@ -9,8 +9,12 @@ load_dotenv()
 
 def setShowName(state):
 
+    print("🧠 Extracting show/movie name from user task...")
+
     task = state['current_task']
     task_number = state['task_number']
+
+    print(f"📌 Current task: {task}")
 
     # Initialize the Groq model (use any model you prefer)
     llm = ChatGroq(model="gemma2-9b-it")
@@ -40,6 +44,9 @@ def setShowName(state):
 
     # Parse the response using the output parser
     final_result = show_name_parser.parse(response.content)
+
+    print(f"🎯 Extracted show name: {final_result.showName}")
+    print("✅ Extraction complete.\n")
 
     return { 'target_show_name': final_result.showName, 'show_name': final_result.showName, 'task_number': task_number + 1 }
 
